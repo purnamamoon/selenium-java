@@ -84,15 +84,16 @@ public class CategoriesPage {
         return message;
     }
 
+    public void assertSuccessToastIsVisible(){
+        String message = this.getToastMessage();
+        driver.findElement(successToast).isDisplayed();
+        Assert.assertEquals(message, "success");
+    }
+
     public void assertSuccessAddKategori(String nama, String deskripsi){
         String firstKategoriName = this.getFirstItemKategoriName();
         String firstKategoriDeskripsi = this.getFirstItemKategoriDeskripsi();
-        String message = this.getToastMessage();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(successToast));
-        driver.findElement(successToast).isDisplayed();
-        Assert.assertEquals(message, "success");
         Assert.assertEquals(firstKategoriName,nama);
         Assert.assertEquals(firstKategoriDeskripsi,deskripsi);
     }
@@ -100,6 +101,9 @@ public class CategoriesPage {
     public void asserSuccessDeleteKategori(String nama, String deskripsi){
         String firstKategoriName = this.getFirstItemKategoriName();
         String firstKategoriDeskripsi = this.getFirstItemKategoriDeskripsi();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+        wait.until(ExpectedConditions.not(ExpectedConditions.textToBe(firstItemKategoriName, nama)));
         Assert.assertNotEquals(firstKategoriName,nama);
         Assert.assertNotEquals(firstKategoriDeskripsi,deskripsi);
     }

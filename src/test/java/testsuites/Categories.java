@@ -10,6 +10,7 @@ import pages.DashboardPage;
 import pages.LoginPage;
 
 import java.time.Duration;
+import java.util.Random;
 
 public class Categories {
     WebDriver driver;
@@ -28,30 +29,35 @@ public class Categories {
         loginPage.login("admin@email.com","adminadmin");
         loginPage.assertSuccessLogin();
         dashboardPage.clickKategoriMenu();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     @Test
-    public void addNewKategori(){
-        String nama = "New Kategori";
-        String deskripsi = "This is new kategori";
+    public void addNewKategori() throws InterruptedException {
+        Random rand = new Random();
+        Integer randomNumber = rand.nextInt(9999);
+        String nama = "New Kategori " + randomNumber;
+        String deskripsi = "This is new kategori " + randomNumber;
         categoriesPage = new CategoriesPage(driver);
         dashboardPage = new DashboardPage(driver);
 
         categoriesPage.addNewKategori(nama, deskripsi);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        categoriesPage.assertSuccessToastIsVisible();
+        Thread.sleep(5000);
+        driver.navigate().refresh();
         categoriesPage.assertSuccessAddKategori(nama, deskripsi);
     }
 
     @Test
-    public void deleteKategori(){
+    public void deleteKategori() throws InterruptedException {
         categoriesPage = new CategoriesPage(driver);
-
         String nama = categoriesPage.getFirstItemKategoriName();
         String deskripsi = categoriesPage.getFirstItemKategoriDeskripsi();
+
         categoriesPage.clickMeatballsButton();
         categoriesPage.clickHapusButton();
         categoriesPage.clickConfirmDeleteButton();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        Thread.sleep(5000);
         categoriesPage.asserSuccessDeleteKategori(nama, deskripsi);
 
     }
