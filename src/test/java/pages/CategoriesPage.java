@@ -99,11 +99,11 @@ public class CategoriesPage {
     }
 
     public void asserSuccessDeleteKategori(String nama, String deskripsi){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.not(ExpectedConditions.textToBe(firstItemKategoriName, nama)));
+
         String firstKategoriName = this.getFirstItemKategoriName();
         String firstKategoriDeskripsi = this.getFirstItemKategoriDeskripsi();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-
-        wait.until(ExpectedConditions.not(ExpectedConditions.textToBe(firstItemKategoriName, nama)));
         Assert.assertNotEquals(firstKategoriName,nama);
         Assert.assertNotEquals(firstKategoriDeskripsi,deskripsi);
     }

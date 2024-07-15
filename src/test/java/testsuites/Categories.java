@@ -33,7 +33,7 @@ public class Categories {
     }
 
     @Test
-    public void addNewKategori() throws InterruptedException {
+    public void addNewKategori() {
         Random rand = new Random();
         Integer randomNumber = rand.nextInt(9999);
         String nama = "New Kategori " + randomNumber;
@@ -43,13 +43,12 @@ public class Categories {
 
         categoriesPage.addNewKategori(nama, deskripsi);
         categoriesPage.assertSuccessToastIsVisible();
-        Thread.sleep(5000);
         driver.navigate().refresh();
         categoriesPage.assertSuccessAddKategori(nama, deskripsi);
     }
 
     @Test
-    public void deleteKategori() throws InterruptedException {
+    public void deleteKategori() {
         categoriesPage = new CategoriesPage(driver);
         String nama = categoriesPage.getFirstItemKategoriName();
         String deskripsi = categoriesPage.getFirstItemKategoriDeskripsi();
@@ -57,7 +56,6 @@ public class Categories {
         categoriesPage.clickMeatballsButton();
         categoriesPage.clickHapusButton();
         categoriesPage.clickConfirmDeleteButton();
-        Thread.sleep(5000);
         categoriesPage.asserSuccessDeleteKategori(nama, deskripsi);
 
     }
